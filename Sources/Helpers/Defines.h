@@ -8,5 +8,6 @@
 
 #define STRIDE(x) (sizeof(GLfloat) * x)
 #define GL_DRAW_COUNT(x) (sizeof(x) / sizeof(GLubyte))
+#define ARRAY_LENGTH(x, type) (sizeof(x) / sizeof(type))
 
 #endif //OPENGL_DEFINES_H

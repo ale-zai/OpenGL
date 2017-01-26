@@ -15,7 +15,10 @@ namespace OpenGL
         public:
             Renderer();
             virtual ~Renderer();
+
+            virtual void SetUp() = 0;
             virtual void Render() = 0;
+            virtual void CleanUp() = 0;
         };
     }
 }

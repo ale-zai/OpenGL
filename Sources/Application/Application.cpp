@@ -50,6 +50,8 @@ void OpenGL::Application::Run() const
 
     glViewport(0, 0, screenWidth, screenHeight);
 
+    _renderer->SetUp();
+
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
@@ -62,6 +64,8 @@ void OpenGL::Application::Run() const
 
         glfwSwapBuffers(window);
     }
+
+    _renderer->CleanUp();
 
     glfwTerminate();
 }

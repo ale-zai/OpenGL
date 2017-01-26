@@ -6,7 +6,7 @@
 int main(int argc, const char *argv[])
 {
     OpenGL::Application app("OpenGL Learning", 800, 600);
-    app.SetRenderer(new OpenGL::Renderers::CubeRenderer());
+    app.SetRenderer(new OpenGL::Renderers::TriangleRenderer());
     app.Run();
     return EXIT_SUCCESS;
 }
