@@ -12,7 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-OpenGL::Renderers::CubeRenderer::CubeRenderer()
+OpenGL::Renderers::CubeRenderer::CubeRenderer() : _rotationAngle(0.f)
 {
 }
 
@@ -153,7 +153,10 @@ void OpenGL::Renderers::CubeRenderer::SetUp()
 
 void OpenGL::Renderers::CubeRenderer::Render()
 {
+    _rotationAngle -= 1.f; if (_rotationAngle <= -360.f) { _rotationAngle = 0.f; }
+
     glm::mat4 modelMatrix(1.f);
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(_rotationAngle), glm::vec3(0.f, 1.f, 0.f));
     glm::mat4 viewMatrix = glm::lookAt(glm::vec3(2.f, 3.f, 4.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.f), 800.f / 600.f, .1f, 100.f);
     glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;

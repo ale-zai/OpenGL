@@ -31,6 +31,8 @@ namespace OpenGL
             GLuint _cubeIndexBuffer;
             GLuint _cubeDrawingCount;
 
+            GLfloat _rotationAngle;
+
         public:
             CubeRenderer();
 
