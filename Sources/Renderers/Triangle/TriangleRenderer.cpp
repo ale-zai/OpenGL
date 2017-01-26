@@ -10,9 +10,7 @@
 #include "ShaderProgram.h"
 #include "Vertex.h"
 #include "Color.h"
-
-#define STRIDE(x) (sizeof(GLfloat) * x)
-#define GL_DRAW_COUNT(x) (sizeof(x) / sizeof(GLubyte))
+#include "Defines.h"
 
 OpenGL::Renderers::TriangleRenderer::TriangleRenderer()
 {
@@ -79,7 +77,6 @@ void OpenGL::Renderers::TriangleRenderer::Render()
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, STRIDE(3), 0);
-
 
     GLuint colorBuffer;
     glGenBuffers(1, &colorBuffer);

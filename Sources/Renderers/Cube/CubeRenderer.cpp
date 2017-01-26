@@ -4,7 +4,12 @@
 //
 
 #include "CubeRenderer.h"
-#include <OpenGL/gl3.h>
+#include "ShaderBuilder.h"
+#include "Shader.h"
+#include "ShaderProgram.h"
+#include "Vertex.h"
+#include "Color.h"
+#include "Defines.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -15,173 +20,161 @@ OpenGL::Renderers::CubeRenderer::CubeRenderer()
 
 void OpenGL::Renderers::CubeRenderer::Render()
 {
-    const GLchar *vertSource =
-            "#verion 330 core\n"\
-            "layout (location = 0) in vec3 position;"\
-            "layout (location = 1) in vec4 inColor;"\
-            "out vec4 throughColor;"\
-            "uniform mat4 mvp;"\
-            "void main()"\
-            "{"\
-                "throughColor = inColor;"\
-                "gl_Position = mvp * vec4(position.x, position.y, position.z, 1.0);"\
-            "}";
 
-    const GLchar *fragSource =
-            "#version 330 core\n"\
-            "in vec4 throughColor;"\
-            "out vec4 outColor;"\
-            "void main()"\
-            "{"\
-                "outColor = throughColor;"\
-            "}";
+    auto vertSource = OpenGL::ShaderBuilder()
+        .SetIn("position", "vec4", 0)
+        .SetIn("color", "vec4", 1)
+        .SetUniform("mvpMatrix", "mat4")
+        .SetOut("throughColor", "vec4")
+        .BeginMain()
+        .SetBody({
+            "throughColor = color;",
+            "gl_Position = mvpMatrix * position;"
+        })
+        .EndMain()
+        .Build();
 
-    GLuint vert = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vert, 1, &vertSource, NULL);
-    glCompileShader(vert);
-    GLuint frag = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(frag, 1, &fragSource, NULL);
-    glCompileShader(frag);
+    auto fragSource = ShaderBuilder()
+        .SetIn("throughColor", "vec4")
+        .SetOut("outColor", "vec4")
+        .BeginMain()
+        .SetBody({
+            "outColor = throughColor;"
+        })
+        .EndMain()
+        .Build();
 
-    GLuint program = glCreateProgram();
-    glAttachShader(program, vert);
-    glAttachShader(program, frag);
-    glLinkProgram(program);
-    glUseProgram(program);
 
-    glDeleteShader(vert);
-    glDeleteShader(frag);
+    const auto &vert = OpenGL::Shader(GL_VERTEX_SHADER, vertSource);
+    vert.Compile();
 
-    const GLfloat axesVertices[] = {
-            -2.f, 0.f, 0.f,
-            2.f, 0.f, 0.f,
+    const auto &frag = OpenGL::Shader(GL_FRAGMENT_SHADER, fragSource);
+    frag.Compile();
 
-            0.f, -2.f, 0.f,
-            0.f, 2.f, 0.f,
+    auto program = OpenGL::ShaderProgram(vert, frag);
+    program.Use();
 
-            0.f, 0.f, -2.f,
-            0.f, 0.f, 2.f
+    glDeleteShader(vert.ShaderId());
+    glDeleteShader(frag.ShaderId());
+
+    const Vertex axesVertices[] = {
+        { .x = -2.f, .y = 0.f, .z = 0.f },
+        { .x = 2.f, .y = 0.f, .z = 0.f },
+
+        { .x = 0.f, .y = -2.f, .z = 0.f },
+        { .x = 0.f, .y = 2.f, .z = 0.f },
+
+        { .x = 0.f, .y = 0.f, .z = -2.f },
+        { .x = 0.f, .y = 0.f, .z = 2.f },
     };
 
-    const GLfloat axesColors[] = {
-            1.f, 0.f, 0.f, 1.f,
-            1.f, 0.f, 0.f, 1.f,
+    const Color axesColors[] = {
+        { .r = 1.f, .g = 0.f, .b = 0.f, .a = 1.f },
+        { .r = 1.f, .g = 0.f, .b = 0.f, .a = 1.f },
 
-            0.f, 1.f, 0.f, 1.f,
-            0.f, 1.f, 0.f, 1.f,
+        { .r = 0.f, .g = 1.f, .b = 0.f, .a = 1.f },
+        { .r = 0.f, .g = 1.f, .b = 0.f, .a = 1.f },
 
-            0.f, 0.f, 1.f, 1.f,
-            0.f, 0.f, 1.f, 1.f,
+        { .r = 0.f, .g = 0.f, .b = 1.f, .a = 1.f },
+        { .r = 0.f, .g = 0.f, .b = 1.f, .a = 1.f },
     };
 
     const GLubyte axesIndices[] = {
-            0, 1, 2, 3, 4, 5
+        0, 1, 2, 3, 4, 5
     };
 
-    const GLfloat cubeVertices[] = {
-            -.5f, .5f, .5f,
-            .5f, .5f, .5f,
-            .5f, -.5f, .5f,
-            -.5f, -.5f, .5f,
+    const Vertex cubeVertices[] = {
+        { .x = -.5f, .y = .5f, .z = .5f },
+        { .x = .5f, .y = .5f, .z = .5f },
+        { .x = .5f, .y = -.5f, .z = .5f },
+        { .x = -.5f, .y = -.5f, .z = .5f },
 
-            -.5f, .5f, -.5f,
-            .5f, .5f, -.5f,
-            .5f, -.5f, -.5f,
-            -.5f, -.5f, -.5f
+        { .x = -.5f, .y = .5f, .z = -.5f },
+        { .x = .5f, .y = .5f, .z = -.5f },
+        { .x = .5f, .y = -.5f, .z = -.5f },
+        { .x = -.5f, .y = -.5f, .z = -.5f }
     };
 
-    const GLfloat cubeColors[] = {
-            1.f, 1.f, 0.f, 1.f,
-            1.f, 1.f, 0.f, 1.f,
-            1.f, 1.f, 0.f, 1.f,
-            1.f, 1.f, 0.f, 1.f,
+    const Color cubeColors[] = {
+        { .r = 1.f, .g = 1.f, .b = 0.f, .a = 1.f },
+        { .r = 1.f, .g = 1.f, .b = 0.f, .a = 1.f },
+        { .r = 1.f, .g = 1.f, .b = 0.f, .a = 1.f },
+        { .r = 1.f, .g = 1.f, .b = 0.f, .a = 1.f },
 
-            0.f, 1.f, 1.f, 1.f,
-            0.f, 1.f, 1.f, 1.f,
-            0.f, 1.f, 1.f, 1.f,
-            0.f, 1.f, 1.f, 1.f
+        { .r = 1.f, .g = 0.f, .b = 1.f, .a = 1.f },
+        { .r = 1.f, .g = 0.f, .b = 1.f, .a = 1.f },
+        { .r = 1.f, .g = 0.f, .b = 1.f, .a = 1.f },
+        { .r = 1.f, .g = 0.f, .b = 1.f, .a = 1.f }
     };
 
     const GLubyte cubeIndices[] = {
-            6, 7, 7, 8, 8, 9, 9, 6,
-            10, 11, 11, 12, 12, 13, 13, 10,
-            6, 10, 9, 13,
-            7, 11, 8, 12
+        0, 1, 1, 2, 2, 3, 3, 0,
+        4, 5, 5, 6, 6, 7, 7, 4,
+        0, 4, 3, 7,
+        1, 5, 2, 6
     };
 
     GLuint axesVAO;
     glGenVertexArrays(1, &axesVAO);
+    glBindVertexArray(axesVAO);
+
     GLuint axesVertexBuffer;
     glGenBuffers(1, &axesVertexBuffer);
-    GLuint axesColorBuffer;
-    glGenBuffers(1, &axesColorBuffer);
-    GLuint axesIndexBuffer;
-    glGenBuffers(1, &axesIndexBuffer);
-
-    GLuint cubeVAO;
-    glGenVertexArrays(1, &cubeVAO);
-    GLuint cubeVertexBuffer;
-    glGenBuffers(1, &cubeVertexBuffer);
-    GLuint cubeColorBuffer;
-    glGenBuffers(1, &cubeColorBuffer);
-    GLuint cubeIndexBuffer;
-    glGenBuffers(1, &cubeIndexBuffer);
-
-    glBindVertexArray(axesVAO);
     glBindBuffer(GL_ARRAY_BUFFER, axesVertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(axesVertices), axesVertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, STRIDE(3), 0);
+
+    GLuint axesColorBuffer;
+    glGenBuffers(1, &axesColorBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, axesColorBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(axesColors), axesColors, GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, STRIDE(4), 0);
+
+    GLuint axesIndexBuffer;
+    glGenBuffers(1, &axesIndexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, axesIndexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(axesIndices), axesIndices, GL_STATIC_DRAW);
 
+    GLuint cubeVAO;
+    glGenVertexArrays(1, &cubeVAO);
     glBindVertexArray(cubeVAO);
+
+    GLuint cubeVertexBuffer;
+    glGenBuffers(1, &cubeVertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, cubeVertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, STRIDE(3), 0);
+
+    GLuint cubeColorBuffer;
+    glGenBuffers(1, &cubeColorBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, cubeColorBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(cubeColors), cubeColors, GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, STRIDE(4), 0);
+
+    GLuint cubeIndexBuffer;
+    glGenBuffers(1, &cubeIndexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIndexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
 
     glm::mat4 modelMatrix(1.f);
     glm::mat4 viewMatrix = glm::lookAt(glm::vec3(2.f, 3.f, 4.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
-    glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), 800.f / 600.f, .1f, 100.f);
-    glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * projectionMatrix;
+    glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.f), 800.f / 600.f, .1f, 100.f);
+    glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
 
-    {
-        glBindVertexArray(axesVAO);
+    GLint mvpLocation = glGetUniformLocation(program.ProgramId(), "mvpMatrix");
+    glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
 
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 4, 0);
+    glBindVertexArray(axesVAO);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glDrawElements(GL_LINES, GL_DRAW_COUNT(axesIndices), GL_UNSIGNED_BYTE, 0);
 
-        GLint mvp = glGetUniformLocation(program, "mvp");
-        glUniformMatrix4fv(mvp, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
+    glBindVertexArray(cubeVAO);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glDrawElements(GL_LINES, GL_DRAW_COUNT(cubeIndices), GL_UNSIGNED_BYTE, 0);
 
-        glDrawArrays(GL_LINES, 0, sizeof(axesIndices) / sizeof(GLubyte));
-
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-    }
-
-    {
-        glBindVertexArray(cubeVAO);
-
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 4, 0);
-
-        GLint mvp = glGetUniformLocation(program, "mvp");
-        glUniformMatrix4fv(mvp, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
-
-        glDrawArrays(GL_LINES, 0, sizeof(cubeIndices) / sizeof(GLubyte));
-
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-    }
-
+    
     glDisableVertexAttribArray(axesVAO);
     glDeleteBuffers(1, &axesVertexBuffer);
     glDeleteBuffers(1, &axesColorBuffer);
@@ -192,5 +185,5 @@ void OpenGL::Renderers::CubeRenderer::Render()
     glDeleteBuffers(1, &cubeColorBuffer);
     glDeleteBuffers(1, &cubeIndexBuffer);
 
-    glDeleteProgram(program);
+    glDeleteProgram(program.ProgramId());
 }

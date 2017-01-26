@@ -54,6 +54,7 @@
 		1A576CA31F0FA8EAD495A8B2 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		1A576EC3681343B402F745A6 /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
 		1A576FC1AF1602E4CE86F553 /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
+		5898A67A63B607F4CBBCB37F /* Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +129,7 @@
 				1A576FC1AF1602E4CE86F553 /* ShaderProgram.h */,
 				1A57692583132F5C696DDE84 /* Color.h */,
 				1A5769BF3E4C21F465860004 /* Vertex.h */,
+				5898A67A63B607F4CBBCB37F /* Defines.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
