@@ -3,8 +3,8 @@
 // Copyright (c) 2017 Mobile Capital. All rights reserved.
 //
 
-#ifndef OPENGL_CUBERENDERER_H
-#define OPENGL_CUBERENDERER_H
+#ifndef OPENGL_TRIANGLERENDERER_H
+#define OPENGL_TRIANGLERENDERER_H
 
 #include "Renderer.h"
 
@@ -12,13 +12,13 @@ namespace OpenGL
 {
     namespace Renderers
     {
-        class CubeRenderer : public Renderer
+        class TriangleRenderer : public Renderer
         {
         public:
-            CubeRenderer();
+            TriangleRenderer();
             void Render();
         };
     }
 }
 
-#endif //OPENGL_CUBERENDERER_H
+#endif //OPENGL_TRIANGLERENDERER_H

@@ -3,8 +3,6 @@
 // Copyright (c) 2017 Mobile Capital. All rights reserved.
 //
 
-#define GLEW_STATIC
-
 #include "Application.h"
 
 OpenGL::Application::Application(std::string title, GLuint windowWidth, GLuint windowHeight) :

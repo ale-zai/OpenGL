@@ -4,7 +4,7 @@
 //
 
 #include "CubeRenderer.h"
-#include <OpenGL/gl.h>
+#include <OpenGL/gl3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -16,23 +16,24 @@ OpenGL::Renderers::CubeRenderer::CubeRenderer()
 void OpenGL::Renderers::CubeRenderer::Render()
 {
     const GLchar *vertSource =
-            "attribute vec4 position;"\
-            "attribute vec4 inColor;"\
-            "varying vec4 outColor;"\
-            "uniform mat4 projection;"\
-            "uniform mat4 view;"\
-            "uniform mat4 model;"\
+            "#verion 330 core\n"\
+            "layout (location = 0) in vec3 position;"\
+            "layout (location = 1) in vec4 inColor;"\
+            "out vec4 throughColor;"\
+            "uniform mat4 mvp;"\
             "void main()"\
             "{"\
-                "outColor = inColor;"\
-                "gl_Position = projection * view * model * position;"\
+                "throughColor = inColor;"\
+                "gl_Position = mvp * vec4(position.x, position.y, position.z, 1.0);"\
             "}";
 
     const GLchar *fragSource =
-            "varying lowp vec4 outColor;"\
+            "#version 330 core\n"\
+            "in vec4 throughColor;"\
+            "out vec4 outColor;"\
             "void main()"\
             "{"\
-                "gl_FragColor = outColor;"\
+                "outColor = throughColor;"\
             "}";
 
     GLuint vert = glCreateShader(GL_VERTEX_SHADER);
@@ -51,71 +52,145 @@ void OpenGL::Renderers::CubeRenderer::Render()
     glDeleteShader(vert);
     glDeleteShader(frag);
 
-    const GLfloat vertices[] = {
-            -2.0f, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0,
-            2.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0,
+    const GLfloat axesVertices[] = {
+            -2.f, 0.f, 0.f,
+            2.f, 0.f, 0.f,
 
-            0.0, -2.0f, 0.0, 0.0, 1.0, 0.0, 1.0,
-            0.0, 2.0, 0.0, 0.0, 1.0, 0.0, 1.0,
+            0.f, -2.f, 0.f,
+            0.f, 2.f, 0.f,
 
-            0.0, 0.0, -2.0f, 0.0, 0.0, 1.0, 1.0,
-            0.0, 0.0, 2.0, 0.0, 0.0, 1.0, 1.0,
-
-            -0.5f, 0.5, 0.5, 1.0, 1.0, 0.0, 1.0,
-            0.5, 0.5, 0.5, 1.0, 1.0, 0.0, 1.0,
-            0.5, -0.5f, 0.5, 1.0, 1.0, 0.0, 1.0,
-            -0.5f, -0.5f, 0.5, 1.0, 1.0, 0.0, 1.0,
-
-            -0.5f, 0.5, -0.5f, 1.0, 0.0, 1.0, 1.0,
-            0.5, 0.5, -0.5f, 1.0, 0.0, 1.0, 1.0,
-            0.5, -0.5f, -0.5f, 1.0, 0.0, 1.0, 1.0,
-            -0.5f, -0.5f, -0.5f, 1.0, 0.0, 1.0, 1.0,
+            0.f, 0.f, -2.f,
+            0.f, 0.f, 2.f
     };
 
-    GLuint vertexBuffer;
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    const GLfloat axesColors[] = {
+            1.f, 0.f, 0.f, 1.f,
+            1.f, 0.f, 0.f, 1.f,
 
-    GLubyte indices[] = {
-            0, 1, 2, 3, 4, 5,
+            0.f, 1.f, 0.f, 1.f,
+            0.f, 1.f, 0.f, 1.f,
 
+            0.f, 0.f, 1.f, 1.f,
+            0.f, 0.f, 1.f, 1.f,
+    };
+
+    const GLubyte axesIndices[] = {
+            0, 1, 2, 3, 4, 5
+    };
+
+    const GLfloat cubeVertices[] = {
+            -.5f, .5f, .5f,
+            .5f, .5f, .5f,
+            .5f, -.5f, .5f,
+            -.5f, -.5f, .5f,
+
+            -.5f, .5f, -.5f,
+            .5f, .5f, -.5f,
+            .5f, -.5f, -.5f,
+            -.5f, -.5f, -.5f
+    };
+
+    const GLfloat cubeColors[] = {
+            1.f, 1.f, 0.f, 1.f,
+            1.f, 1.f, 0.f, 1.f,
+            1.f, 1.f, 0.f, 1.f,
+            1.f, 1.f, 0.f, 1.f,
+
+            0.f, 1.f, 1.f, 1.f,
+            0.f, 1.f, 1.f, 1.f,
+            0.f, 1.f, 1.f, 1.f,
+            0.f, 1.f, 1.f, 1.f
+    };
+
+    const GLubyte cubeIndices[] = {
             6, 7, 7, 8, 8, 9, 9, 6,
             10, 11, 11, 12, 12, 13, 13, 10,
             6, 10, 9, 13,
             7, 11, 8, 12
     };
 
-    GLuint indexBuffer;
-    glGenBuffers(1, &indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    GLuint axesVAO;
+    glGenVertexArrays(1, &axesVAO);
+    GLuint axesVertexBuffer;
+    glGenBuffers(1, &axesVertexBuffer);
+    GLuint axesColorBuffer;
+    glGenBuffers(1, &axesColorBuffer);
+    GLuint axesIndexBuffer;
+    glGenBuffers(1, &axesIndexBuffer);
 
-    GLuint position = (GLuint) glGetAttribLocation(program, "position");
-    glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 7, 0);
+    GLuint cubeVAO;
+    glGenVertexArrays(1, &cubeVAO);
+    GLuint cubeVertexBuffer;
+    glGenBuffers(1, &cubeVertexBuffer);
+    GLuint cubeColorBuffer;
+    glGenBuffers(1, &cubeColorBuffer);
+    GLuint cubeIndexBuffer;
+    glGenBuffers(1, &cubeIndexBuffer);
 
-    GLuint inColor = (GLuint) glGetAttribLocation(program, "inColor");
-    glEnableVertexAttribArray(inColor);
-    glVertexAttribPointer(inColor, 4, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 7, (GLvoid *) (sizeof(GLfloat) * 3));
+    glBindVertexArray(axesVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, axesVertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(axesVertices), axesVertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, axesColorBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(axesColors), axesColors, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, axesIndexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(axesIndices), axesIndices, GL_STATIC_DRAW);
 
-    GLuint projection = (GLuint) glGetUniformLocation(program, "projection");
-    glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), 16.f / 9.f, 0.1f, 100.f);
-    glUniformMatrix4fv(projection, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+    glBindVertexArray(cubeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, cubeVertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, cubeColorBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeColors), cubeColors, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIndexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
 
-    GLuint view = (GLuint) glGetUniformLocation(program, "view");
-    glm::mat4 viewMatrix = glm::lookAt(glm::vec3(2.f, 3.f, 4.f), glm::vec3(.0f, .0f, .0f), glm::vec3(.0f, 1.f, .0f));
-    glUniformMatrix4fv(view, 1, GL_FALSE, glm::value_ptr(viewMatrix));
-
-    GLuint model = (GLuint) glGetUniformLocation(program, "model");
     glm::mat4 modelMatrix(1.f);
-    glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    glm::mat4 viewMatrix = glm::lookAt(glm::vec3(2.f, 3.f, 4.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
+    glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), 800.f / 600.f, .1f, 100.f);
+    glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * projectionMatrix;
 
-    glDrawElements(GL_LINES, sizeof(indices) / sizeof(GLubyte), GL_UNSIGNED_BYTE, 0);
+    {
+        glBindVertexArray(axesVAO);
 
-    glDisableVertexAttribArray(position);
-    glDisableVertexAttribArray(inColor);
-    glDeleteBuffers(1, &vertexBuffer);
-    glDeleteBuffers(1, &indexBuffer);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 4, 0);
+
+        GLint mvp = glGetUniformLocation(program, "mvp");
+        glUniformMatrix4fv(mvp, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
+
+        glDrawArrays(GL_LINES, 0, sizeof(axesIndices) / sizeof(GLubyte));
+
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+    }
+
+    {
+        glBindVertexArray(cubeVAO);
+
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 4, 0);
+
+        GLint mvp = glGetUniformLocation(program, "mvp");
+        glUniformMatrix4fv(mvp, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
+
+        glDrawArrays(GL_LINES, 0, sizeof(cubeIndices) / sizeof(GLubyte));
+
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+    }
+
+    glDisableVertexAttribArray(axesVAO);
+    glDeleteBuffers(1, &axesVertexBuffer);
+    glDeleteBuffers(1, &axesColorBuffer);
+    glDeleteBuffers(1, &axesIndexBuffer);
+
+    glDisableVertexAttribArray(cubeVAO);
+    glDeleteBuffers(1, &cubeVertexBuffer);
+    glDeleteBuffers(1, &cubeColorBuffer);
+    glDeleteBuffers(1, &cubeIndexBuffer);
+
     glDeleteProgram(program);
 }
