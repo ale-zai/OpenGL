@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0464627E1E39E63900C8817F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0464627D1E39E63900C8817F /* main.cpp */; };
+		046462861E39E7A400C8817F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046462851E39E7A400C8817F /* OpenGL.framework */; };
+		046462881E39E84A00C8817F /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 046462871E39E84A00C8817F /* libglfw.3.2.dylib */; };
+		0464628A1E39E85C00C8817F /* libGLEW.2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 046462891E39E85C00C8817F /* libGLEW.2.0.0.dylib */; };
+		04C742891E39EF4500D6DD29 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C742881E39EF4500D6DD29 /* main.cpp */; };
+		1A5765F947B52A35B9B8A92D /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A576B0F182FBA8C48E573B6 /* Application.cpp */; };
+		1A576E08AB8A30EC02D01A1B /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A576558C4B13BEFF67FC0B1 /* Renderer.cpp */; };
+		1A576E5537B93321BCA5BB03 /* CubeRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57635BB0B9DDFDDB57C961 /* CubeRenderer.cpp */; };
+		1A576EE4106ACBD85E890216 /* ShaderBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A5767892582B88C1F5D10F7 /* ShaderBuilder.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +31,18 @@
 
 /* Begin PBXFileReference section */
 		0464627A1E39E63900C8817F /* OpenGL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenGL; sourceTree = BUILT_PRODUCTS_DIR; };
-		0464627D1E39E63900C8817F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		046462851E39E7A400C8817F /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		046462871E39E84A00C8817F /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = ../../../../usr/local/Cellar/glfw/3.2.1/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
+		046462891E39E85C00C8817F /* libGLEW.2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.0.0.dylib; path = ../../../../usr/local/Cellar/glew/2.0.0/lib/libGLEW.2.0.0.dylib; sourceTree = "<group>"; };
+		04C742881E39EF4500D6DD29 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		1A5761087A475EF1BD1A5565 /* ShaderBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderBuilder.h; sourceTree = "<group>"; };
+		1A57635BB0B9DDFDDB57C961 /* CubeRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubeRenderer.cpp; sourceTree = "<group>"; };
+		1A576558C4B13BEFF67FC0B1 /* Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
+		1A5767892582B88C1F5D10F7 /* ShaderBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderBuilder.cpp; sourceTree = "<group>"; };
+		1A576AA39F1424D9C958289D /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		1A576ABA214C14CD44B31621 /* CubeRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CubeRenderer.h; sourceTree = "<group>"; };
+		1A576B0F182FBA8C48E573B6 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
+		1A576EC3681343B402F745A6 /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +50,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0464628A1E39E85C00C8817F /* libGLEW.2.0.0.dylib in Frameworks */,
+				046462881E39E84A00C8817F /* libglfw.3.2.dylib in Frameworks */,
+				046462861E39E7A400C8817F /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,8 +62,9 @@
 		046462711E39E63900C8817F = {
 			isa = PBXGroup;
 			children = (
-				0464627C1E39E63900C8817F /* OpenGL */,
+				04C742871E39EF4500D6DD29 /* Sources */,
 				0464627B1E39E63900C8817F /* Products */,
+				046462841E39E7A400C8817F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,12 +76,70 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0464627C1E39E63900C8817F /* OpenGL */ = {
+		046462841E39E7A400C8817F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0464627D1E39E63900C8817F /* main.cpp */,
+				046462891E39E85C00C8817F /* libGLEW.2.0.0.dylib */,
+				046462871E39E84A00C8817F /* libglfw.3.2.dylib */,
+				046462851E39E7A400C8817F /* OpenGL.framework */,
 			);
-			path = OpenGL;
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		04C742871E39EF4500D6DD29 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				04C742881E39EF4500D6DD29 /* main.cpp */,
+				1A576C23F14E8FD27AD065CF /* Application */,
+				1A576B48220B82142CA5A644 /* Renderers */,
+				1A576558DF7B53AE7FF8C681 /* Helpers */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		1A57636EA09CDC492E2846D2 /* Cube */ = {
+			isa = PBXGroup;
+			children = (
+				1A57635BB0B9DDFDDB57C961 /* CubeRenderer.cpp */,
+				1A576ABA214C14CD44B31621 /* CubeRenderer.h */,
+			);
+			path = Cube;
+			sourceTree = "<group>";
+		};
+		1A576558DF7B53AE7FF8C681 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1A5767892582B88C1F5D10F7 /* ShaderBuilder.cpp */,
+				1A5761087A475EF1BD1A5565 /* ShaderBuilder.h */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		1A576B48220B82142CA5A644 /* Renderers */ = {
+			isa = PBXGroup;
+			children = (
+				1A57636EA09CDC492E2846D2 /* Cube */,
+				1A576BC7950A13A7BFFE8897 /* Base */,
+			);
+			path = Renderers;
+			sourceTree = "<group>";
+		};
+		1A576BC7950A13A7BFFE8897 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				1A576558C4B13BEFF67FC0B1 /* Renderer.cpp */,
+				1A576EC3681343B402F745A6 /* Renderer.h */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		1A576C23F14E8FD27AD065CF /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				1A576B0F182FBA8C48E573B6 /* Application.cpp */,
+				1A576AA39F1424D9C958289D /* Application.h */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,7 +199,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0464627E1E39E63900C8817F /* main.cpp in Sources */,
+				04C742891E39EF4500D6DD29 /* main.cpp in Sources */,
+				1A5765F947B52A35B9B8A92D /* Application.cpp in Sources */,
+				1A576E5537B93321BCA5BB03 /* CubeRenderer.cpp in Sources */,
+				1A576E08AB8A30EC02D01A1B /* Renderer.cpp in Sources */,
+				1A576EE4106ACBD85E890216 /* ShaderBuilder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +300,12 @@
 		046462821E39E63900C8817F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glfw/3.2.1/lib,
+					/usr/local/Cellar/glew/2.0.0/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -223,6 +313,12 @@
 		046462831E39E63900C8817F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glfw/3.2.1/lib,
+					/usr/local/Cellar/glew/2.0.0/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -246,6 +342,7 @@
 				046462831E39E63900C8817F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
