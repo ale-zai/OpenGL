@@ -18,10 +18,10 @@ namespace OpenGL
         {
         private:
             ShaderProgram *_program;
+
             GLuint _vao;
             GLuint _vertexBuffer;
             GLuint _colorBuffer;
-
             GLuint _drawingCount;
 
         public:
