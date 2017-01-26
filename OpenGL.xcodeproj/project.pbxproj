@@ -18,6 +18,7 @@
 		1A576E08AB8A30EC02D01A1B /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A576558C4B13BEFF67FC0B1 /* Renderer.cpp */; };
 		1A576E5537B93321BCA5BB03 /* CubeRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57635BB0B9DDFDDB57C961 /* CubeRenderer.cpp */; };
 		1A576EE4106ACBD85E890216 /* ShaderBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A5767892582B88C1F5D10F7 /* ShaderBuilder.cpp */; };
+		6BCFD1501E3A9B9200D939DC /* wood-texture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BCFD14E1E3A9B7800D939DC /* wood-texture.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,6 +56,7 @@
 		1A576EC3681343B402F745A6 /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
 		1A576FC1AF1602E4CE86F553 /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
 		5898A67A63B607F4CBBCB37F /* Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
+		6BCFD14E1E3A9B7800D939DC /* wood-texture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "wood-texture.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				04C742871E39EF4500D6DD29 /* Sources */,
 				0464627B1E39E63900C8817F /* Products */,
 				046462841E39E7A400C8817F /* Frameworks */,
+				5898A1375100839D09924A41 /* Assets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -171,6 +174,14 @@
 			path = Triangle;
 			sourceTree = "<group>";
 		};
+		5898A1375100839D09924A41 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				6BCFD14E1E3A9B7800D939DC /* wood-texture.jpg */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -181,6 +192,7 @@
 				046462761E39E63900C8817F /* Sources */,
 				046462771E39E63900C8817F /* Frameworks */,
 				046462781E39E63900C8817F /* CopyFiles */,
+				6BCFD14F1E3A9B8A00D939DC /* Resources */,
 			);
 			buildRules = (
 			);
@@ -222,6 +234,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6BCFD14F1E3A9B8A00D939DC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6BCFD1501E3A9B9200D939DC /* wood-texture.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		046462761E39E63900C8817F /* Sources */ = {
