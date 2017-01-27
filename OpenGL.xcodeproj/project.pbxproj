@@ -12,6 +12,7 @@
 		0464628A1E39E85C00C8817F /* libGLEW.2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 046462891E39E85C00C8817F /* libGLEW.2.0.0.dylib */; };
 		04C742891E39EF4500D6DD29 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C742881E39EF4500D6DD29 /* main.cpp */; };
 		1A5765F947B52A35B9B8A92D /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A576B0F182FBA8C48E573B6 /* Application.cpp */; };
+		1A57675BF227BB75A74A101E /* RoundRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57681A9C186F2246732399 /* RoundRenderer.cpp */; };
 		1A576764F9973E910FE9567F /* TriangleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57682392CDA27E68D199C8 /* TriangleRenderer.cpp */; };
 		1A576BB28263118D58D13273 /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A576A2B5E07F18456443F8C /* ShaderProgram.cpp */; };
 		1A576C3077FACD80502E5448 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57633B34D454B9F8B11104 /* Shader.cpp */; };
@@ -44,6 +45,8 @@
 		1A57635BB0B9DDFDDB57C961 /* CubeRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubeRenderer.cpp; sourceTree = "<group>"; };
 		1A576558C4B13BEFF67FC0B1 /* Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
 		1A5767892582B88C1F5D10F7 /* ShaderBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderBuilder.cpp; sourceTree = "<group>"; };
+		1A57680C6285BA7E9679E29F /* RoundRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundRenderer.h; sourceTree = "<group>"; };
+		1A57681A9C186F2246732399 /* RoundRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RoundRenderer.cpp; sourceTree = "<group>"; };
 		1A57682392CDA27E68D199C8 /* TriangleRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriangleRenderer.cpp; sourceTree = "<group>"; };
 		1A57692583132F5C696DDE84 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		1A5769BF3E4C21F465860004 /* Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
@@ -137,12 +140,22 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		1A576769CADBE135C6A85748 /* Round */ = {
+			isa = PBXGroup;
+			children = (
+				1A57681A9C186F2246732399 /* RoundRenderer.cpp */,
+				1A57680C6285BA7E9679E29F /* RoundRenderer.h */,
+			);
+			path = Round;
+			sourceTree = "<group>";
+		};
 		1A576B48220B82142CA5A644 /* Renderers */ = {
 			isa = PBXGroup;
 			children = (
 				1A57636EA09CDC492E2846D2 /* Cube */,
 				1A576BC7950A13A7BFFE8897 /* Base */,
 				1A576C5912D022A1F5657F3F /* Triangle */,
+				1A576769CADBE135C6A85748 /* Round */,
 			);
 			path = Renderers;
 			sourceTree = "<group>";
@@ -259,6 +272,7 @@
 				1A576764F9973E910FE9567F /* TriangleRenderer.cpp in Sources */,
 				1A576C3077FACD80502E5448 /* Shader.cpp in Sources */,
 				1A576BB28263118D58D13273 /* ShaderProgram.cpp in Sources */,
+				1A57675BF227BB75A74A101E /* RoundRenderer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

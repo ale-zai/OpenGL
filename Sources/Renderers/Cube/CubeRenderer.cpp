@@ -183,15 +183,15 @@ void OpenGL::Renderers::CubeRenderer::Render()
 
 void OpenGL::Renderers::CubeRenderer::CleanUp()
 {
-    glDisableVertexAttribArray(_axesVAO);
     glDeleteBuffers(1, &_axesVertexBuffer);
     glDeleteBuffers(1, &_axesColorBuffer);
     glDeleteBuffers(1, &_axesIndexBuffer);
+    glDeleteVertexArrays(1, &_axesVAO);
 
-    glDisableVertexAttribArray(_cubeVAO);
     glDeleteBuffers(1, &_cubeVertexBuffer);
     glDeleteBuffers(1, &_cubeColorBuffer);
     glDeleteBuffers(1, &_cubeIndexBuffer);
+    glDeleteVertexArrays(1, &_cubeVAO);
 
     delete _program;
 }
