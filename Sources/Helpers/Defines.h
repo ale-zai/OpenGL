@@ -6,6 +6,8 @@
 #ifndef OPENGL_DEFINES_H
 #define OPENGL_DEFINES_H
 
+#define GLSL(code) ("#version 330 core\n"#code)
+
 #define STRIDE(x) (sizeof(GLfloat) * x)
 #define GL_DRAW_COUNT(x) (sizeof(x) / sizeof(GLubyte))
 #define ARRAY_LENGTH(x, type) (sizeof(x) / sizeof(type))
