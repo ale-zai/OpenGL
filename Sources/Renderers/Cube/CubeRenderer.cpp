@@ -20,29 +20,25 @@ void OpenGL::Renderers::CubeRenderer::SetUp()
 {
     glEnable(GL_LINE_SMOOTH);
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
-    auto vertSource = OpenGL::ShaderBuilder()
-        .SetIn("position", "vec4", 0)
-        .SetIn("color", "vec4", 1)
-        .SetUniform("mvpMatrix", "mat4")
-        .SetOut("throughColor", "vec4")
-        .BeginMain()
-        .SetBody({
-            "throughColor = color;",
-            "gl_Position = mvpMatrix * position;"
-        })
-        .EndMain()
-        .Build();
-
-    auto fragSource = ShaderBuilder()
-        .SetIn("throughColor", "vec4")
-        .SetOut("outColor", "vec4")
-        .BeginMain()
-        .SetBody({
-            "outColor = throughColor;"
-        })
-        .EndMain()
-        .Build();
+    
+    const GLchar* vertSource = GLSL(
+                                    layout (location = 0) in vec4 position;
+                                    layout (location = 1) in vec4 color;
+                                    uniform mat4 mvpMatrix;
+                                    out vec4 throughColor;
+                                    void main() {
+                                        throughColor = color;
+                                        gl_Position = mvpMatrix * position;
+                                    }
+                                );
+    
+    const GLchar* fragSource = GLSL(
+                                    in vec4 throughColor;
+                                    out vec4 outColor;
+                                    void main() {
+                                        outColor = throughColor;
+                                    }
+                                );
 
 
     const auto &vert = OpenGL::Shader(GL_VERTEX_SHADER, vertSource);
@@ -153,7 +149,7 @@ void OpenGL::Renderers::CubeRenderer::SetUp()
 
 void OpenGL::Renderers::CubeRenderer::Render()
 {
-    _rotationAngle -= 1.f; if (_rotationAngle <= -360.f) { _rotationAngle = 0.f; }
+    _rotationAngle -= .5f; if (_rotationAngle <= -360.f) { _rotationAngle = 0.f; }
 
     glm::mat4 modelMatrix(1.f);
     modelMatrix = glm::rotate(modelMatrix, glm::radians(_rotationAngle), glm::vec3(0.f, 1.f, 0.f));
