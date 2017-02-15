@@ -4,7 +4,6 @@
 //
 
 #include "CubeRenderer.h"
-#include "ShaderBuilder.h"
 #include "Vertex.h"
 #include "Color.h"
 #include "Defines.h"

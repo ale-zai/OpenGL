@@ -6,7 +6,6 @@
 #include "RoundRenderer.h"
 #include "ShaderBuilder.h"
 #include "Vertex.h"
-#include "Color.h"
 #include "Defines.h"
 #include <glm/glm.hpp>
 
@@ -16,27 +15,23 @@ OpenGL::Renderers::RoundRenderer::RoundRenderer()
 
 void OpenGL::Renderers::RoundRenderer::SetUp()
 {
-    auto vertSource = OpenGL::ShaderBuilder()
-        .SetIn("position", "vec4", 0)
-        .SetIn("color", "vec4", 1)
-        .SetOut("throughColor", "vec4")
-        .BeginMain()
-        .SetBody({
-            "throughColor = color;",
-            "gl_Position = position;"
-        })
-        .EndMain()
-        .Build();
-
-    auto fragSource = OpenGL::ShaderBuilder()
-        .SetIn("throughColor", "vec4")
-        .SetOut("outColor", "vec4")
-        .BeginMain()
-        .SetBody({
-            "outColor = throughColor;"
-        })
-        .EndMain()
-        .Build();
+    const GLchar* vertSource = GLSL(
+                                    layout (location = 0) in vec4 position;
+                                    layout (location = 1) in vec4 color;
+                                    out vec4 throughColor;
+                                    void main() {
+                                        throughColor = color;
+                                        gl_Position = position;
+                                    }
+                               );
+    
+    const GLchar* fragSource = GLSL(
+                                    in vec4 throughColor;
+                                    out vec4 outColor;
+                                    void main() {
+                                        outColor = throughColor;
+                                    }
+                               );
 
     const auto &vert = OpenGL::Shader(GL_VERTEX_SHADER, vertSource);
     vert.Compile();
@@ -55,8 +50,9 @@ void OpenGL::Renderers::RoundRenderer::SetUp()
     Color colors[segmentsCount + 2];
 
     vertices[0] = center;
-    colors[0] = { .r = 1.f, .g = 1.f, .b = 0.f, .a = 1.f };
+    colors[0] = { .r = 1.f, .g = 1.f, .b = 1.f, .a = 1.f };
     GLfloat delta = glm::radians(360.f / segmentsCount);
+    GLfloat hue = 0;
 
     for (int i = 1; i < segmentsCount + 2; i++)
     {
@@ -65,7 +61,8 @@ void OpenGL::Renderers::RoundRenderer::SetUp()
             .y = center.y + radius * glm::sin(i * delta),
             .z = center.z
         };
-        colors[i] = { .r = 1.f, .g = 1.f, .b = 0.f, .a = 1.f };
+        colors[i] = GetRGBFromHSB(hue, 100.0, 100.0);
+        hue += 360.f / segmentsCount;
     }
 
     glGenVertexArrays(1, &_vao);
@@ -108,4 +105,29 @@ void OpenGL::Renderers::RoundRenderer::CleanUp()
     glDeleteVertexArrays(1, &_vao);
 
     delete _program;
+}
+
+Color OpenGL::Renderers::RoundRenderer::GetRGBFromHSB(GLfloat hue, GLfloat saturation, GLfloat brightness)
+{
+    const GLint Hi = ((GLint) hue / 60) % 6;
+    const GLfloat Bmin = ((100.f - saturation) * brightness) / 100.f;
+    const GLfloat a = (brightness - Bmin) * (((GLint)hue % 60) / 60.f);
+    const GLfloat Binc = Bmin + a;
+    const GLfloat Bdec = brightness - a;
+    
+    if (Hi == 0) {
+        return { .r = brightness / 100.f, .g = Binc / 100.f, .b = Bmin / 100.f, .a = 1.0 };
+    } else if (Hi == 1) {
+        return { .r = Bdec / 100.f, .g = brightness / 100.f, .b = Bmin / 100.f, .a = 1.0 };
+    } else if (Hi == 2) {
+        return { .r = Bmin / 100.f, .g = brightness / 100.f, .b = Binc / 100.f, .a = 1.0 };
+    } else if (Hi == 3) {
+        return { .r = Bmin / 100.f, .g = Bdec / 100.f, .b = brightness / 100.f, .a = 1.0 };
+    } else if (Hi == 4) {
+        return { .r = Binc / 100.f, .g = Bmin / 100.f, .b = brightness / 100.f, .a = 1.0 };
+    } else if (Hi == 5) {
+        return { .r = brightness / 100.f, .g = Bmin / 100.f, .b = Bdec / 100.f, .a = 1.0 };
+    } else {
+        return { .r = 0.0, .g = 0.0, .b = 0.0, .a = 1.0 };
+    }
 }

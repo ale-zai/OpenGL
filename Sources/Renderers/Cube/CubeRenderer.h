@@ -36,9 +36,9 @@ namespace OpenGL
         public:
             CubeRenderer();
 
-            void SetUp();
-            void Render();
-            void CleanUp();
+            void SetUp() override;
+            void Render() override;
+            void CleanUp() override;
         };
     }
 }

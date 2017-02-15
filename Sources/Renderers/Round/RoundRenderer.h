@@ -9,6 +9,7 @@
 #include <OpenGL/OpenGL.h>
 #include "ShaderProgram.h"
 #include "Renderer.h"
+#include "Color.h"
 
 namespace OpenGL
 {
@@ -24,6 +25,8 @@ namespace OpenGL
             GLuint _drawingCount;
 
             ShaderProgram *_program;
+            
+            Color GetRGBFromHSB(GLfloat hue, GLfloat saturation, GLfloat brightness);
 
         public:
             RoundRenderer();

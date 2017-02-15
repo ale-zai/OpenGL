@@ -45,8 +45,8 @@
 		1A57635BB0B9DDFDDB57C961 /* CubeRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubeRenderer.cpp; sourceTree = "<group>"; };
 		1A576558C4B13BEFF67FC0B1 /* Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
 		1A5767892582B88C1F5D10F7 /* ShaderBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderBuilder.cpp; sourceTree = "<group>"; };
-		1A57680C6285BA7E9679E29F /* RoundRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundRenderer.h; sourceTree = "<group>"; };
-		1A57681A9C186F2246732399 /* RoundRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RoundRenderer.cpp; sourceTree = "<group>"; };
+		1A57680C6285BA7E9679E29F /* RoundRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = RoundRenderer.h; sourceTree = "<group>"; tabWidth = 4; };
+		1A57681A9C186F2246732399 /* RoundRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RoundRenderer.cpp; sourceTree = "<group>"; tabWidth = 4; };
 		1A57682392CDA27E68D199C8 /* TriangleRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriangleRenderer.cpp; sourceTree = "<group>"; };
 		1A57692583132F5C696DDE84 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		1A5769BF3E4C21F465860004 /* Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
